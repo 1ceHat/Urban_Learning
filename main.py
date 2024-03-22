@@ -1,22 +1,41 @@
-import os
-import time
+class Car:
+    horsePow = 0
+    def __init__(self, horse_power=None):
+        self.price = 1000000
+        if horse_power:
+            Car.horsePow = horse_power
 
-cur_dir = os.path.dirname(__file__)
-dirs = os.walk(cur_dir)
-for dirpath, dirname, files in dirs:
-    print("{dirpath:=^50}".format(dirpath=dirpath))
-    if not dirname: dirname = None
-    if not files: files = None
-    print(f"|-dirs-{dirname}\n|-files-{files}\n")
+    def horse_powers(self):
+        return self.horsePow
 
-    if files:
-        for file in files:
-            full_path = os.path.join(dirpath, file)
-            raw_last_write = os.path.getmtime(full_path)
-            size = os.path.getsize(full_path)
-            last_write = time.gmtime(raw_last_write)
-            print(f"{full_path}\n"
-                  f"|:| LAST WRITE: {last_write.tm_mday}-{last_write.tm_mon}-{last_write.tm_year}\n"
-                  f"|:| SIZE: {size} Bytes\n"
-                  f"|:| PARENT DIR: {os.path.dirname(full_path)}")
-    print("\n")
+
+class Nissan(Car):
+
+    def __init__(self):
+        self.price = 2500000
+
+    def horse_powers(self, horse_power):
+        self.horsePow = horse_power
+        print("Now {}'s horse powers is {}".format(self.__class__.__name__,
+                                                   self.horsePow))
+        return self.horsePow
+
+
+class Kia(Car):
+    def __init__(self):
+        self.price = 1700000
+
+    def horse_powers(self, multip):
+        self.horsePow = int(self.horsePow * multip)
+        print("Now {}'s horse powers is {}".format(self.__class__.__name__,
+                                                   self.horsePow))
+        return self.horsePow
+
+
+car_prototype = Car(horse_power=100)
+nissan_gtr = Nissan()
+kia_rio = Kia()
+
+print("Car prototype's horse powers is", car_prototype.horse_powers())
+nissan_gtr.horse_powers(horse_power=200)
+kia_rio.horse_powers(multip=1.5)
