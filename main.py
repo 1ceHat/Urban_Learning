@@ -1,18 +1,30 @@
-import random as rnd
+def calculate_structure_sum(data_structer):
+    if isinstance(data_structer, list) or isinstance(data_structer, tuple) or isinstance(data_structer, set):
+        sum_len = 0
+        for value in data_structer:
+            sum_len += calculate_structure_sum(value)
+        return sum_len
+    elif isinstance(data_structer, dict):
+        sum_len = 0
+        for key, value in data_structer.items():
+            len_key = calculate_structure_sum(key)
+            len_value = calculate_structure_sum(value)
+            sum_len += len_value+len_key
+        return sum_len
+    elif isinstance(data_structer, str):
+        return len(data_structer)
+    elif isinstance(data_structer, int) or isinstance(data_structer, float):
+        return data_structer
 
-number = rnd.randint(3, 20)
-password = ''
-deliters = set()
-for i in range(1, int(number**0.5)+1):
-    if number%i==0:
-        deliters.add(i)
-        deliters.add(number//i)
-sorted(deliters)
 
 
-for num in range(1,number//2+1):
-    for deliter in deliters:
-        if num<deliter-num:
-            password += str(num)+str(deliter-num)
+data_structure = [
+    [1, 2, 3],
+    {'a': 4, 'b': 5},
+    (6, {'cube': 7, 'drum': 8}),
+    "Hello",
+    ((), [{(2, 'Urban', ('Urban2', 35))}])
+]
 
-print(number, password)
+sum_len = calculate_structure_sum(data_structure)
+print(sum_len)
